@@ -10,17 +10,30 @@ void clear_screen() {
   set_cursor(0);
 }
 
+void print(char *str) {
+  for (int i = 0; str[i] != '\0'; i++) {
+    int offset = get_cursor() / 2;
+    int row = offset / COLUMNS;
+    int col = offset % COLUMNS;
+    print_char(str[i], row, col, DEFAULT_COLOR_ATTR);
+  }
+}
+
 void print_at_begin(char *str) { print_at(str, 0, 0); }
 
 void print_at(char *str, int row, int col) {
   if (row >= 0 && row < ROWS && col >= 0 && col < COLUMNS)
     set_cursor(get_screen_offset(col, row));
-  else
+  else {
     set_cursor(0);
+    row = 0;
+    col = 0;
+  }
   for (int i = 0; str[i] != '\0'; i++) {
-    print_char(str[i], row, col, 0);
-    col++;
-    set_cursor(get_screen_offset(col, row));
+    print_char(str[i], row, col, DEFAULT_COLOR_ATTR);
+    int offset = get_cursor() / 2;
+    row = offset / COLUMNS;
+    col = offset % COLUMNS;
   }
 }
 
@@ -29,18 +42,21 @@ void print_char(char c, int row, int col, char attr) {
 
   if (!attr)
     attr = WHITE_ON_BLACK;
+
   int offset;
   if (row >= 0 && row < ROWS && col >= 0 && col < COLUMNS)
     offset = get_screen_offset(col, row);
   else
     offset = get_cursor();
+
   if (c == '\n') {
     int rows = offset / (2 * COLUMNS);
-    offset = get_screen_offset(79, rows);
+    offset = get_screen_offset(COLUMNS - 1, rows);
   } else {
     video_mem[offset] = c;
     video_mem[offset + 1] = attr;
   }
+
   offset += 2;
   offset = handle_scroll(offset);
   set_cursor(offset);

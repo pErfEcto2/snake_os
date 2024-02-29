@@ -1,8 +1,14 @@
-#include "headers/low_level.h"
 #include "headers/screen.h"
-#include "headers/util.h"
 
 void main() {
   clear_screen();
-  print_at_begin("test");
+  char *s = "a\n";
+
+  for (char i = 'a'; i < 'a' + ROWS - 1; i++) {
+    *s = i;
+    print(s);
+  }
+
+  print("test");
+  print("\nTEST");
 }
