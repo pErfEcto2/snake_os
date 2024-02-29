@@ -1,0 +1,1 @@
+void memcopy(char *src, char *dest, int n);
