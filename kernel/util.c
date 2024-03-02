@@ -1,5 +1,25 @@
 #include "headers/util.h"
 
+float stof(char *str) {
+  // converts from str to float and returns it
+  // if invalid str is given the function returns -1
+
+  return -1.0;
+}
+
+void ftos(char *str, float val) {
+  // converts float to str
+}
+
+int strlen(char *str) {
+  // returns a length of a str
+  int res = 0;
+
+  while (*str++)
+    res++;
+  return res;
+}
+
 void memcopy(char *src, char *dest, int n) {
   // copies n byte from src to dest
   for (int i = 0; i < n; i++)

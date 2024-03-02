@@ -1,5 +1,4 @@
 _ := $(shell test -d build/drivers || mkdir -p build/drivers)
-
 OBJ_FILES = build/kernel_entry.o build/kernel.o build/low_level.o $(wildcard build/drivers/*.o) build/util.o
 
 .PHONY: all start clean os-image

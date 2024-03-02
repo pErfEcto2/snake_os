@@ -11,11 +11,13 @@ void write_byte(unsigned short port, unsigned char data) {
 }
 
 unsigned short read_word(unsigned short port) {
+  // reads a word(two bytes) from the port
 	unsigned short res;
 	__asm__("in %%dx, %%ax" : "=a"(res) : "d"(port));
 	return res;
 }
 
 void write_word(unsigned short port, unsigned short data) {
+  // writes a word(tow bytes) to the port
 	__asm__("out %%ax, %%dx" : : "a"(data), "d"(port));
 }
