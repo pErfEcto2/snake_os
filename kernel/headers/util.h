@@ -1,6 +1,8 @@
 #define REG_KEYBOARD_DATA 0x60
 
 
+void print_all_info();
+
 void memcopy(char *src, char *dest, int n);
 void sleep(unsigned int millis);
 

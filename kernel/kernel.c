@@ -4,12 +4,13 @@
 
 void main() {
   clear_screen();
-  char s[32];
+  __asm__("hlt");
 
-  while (1) {
-    getns(s, 30);
-    printf("%s\n", s);
-  }
+  // char s[32];
+  // while (1) {
+  //   getns(s, 30);
+  //   printf("%s\n", s);
+  // }
 
   // while (1) {
   //   char tmp = read_byte(0x60);

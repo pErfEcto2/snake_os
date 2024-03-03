@@ -1,5 +1,13 @@
 #include "headers/util.h"
 
+void print_all_info() {
+  register int eax asm("eax"), ebx asm("ebx"), ecx asm("ecx"), edx asm("edx"),
+      esp asm("esp"), ebp asm("ebp"), edi asm("edi"), esi asm("esi");
+
+  printf("eax=%d ebx=%d ecx=%d edx=%d esp=%d ebp=%d edi=%d esi=%d\n", eax, ebx,
+         ecx, edx, esp, ebp, edi, esi);
+}
+
 float stof(char *str) {
   // converts from str to float and returns it
   // if invalid str is given the function returns -1

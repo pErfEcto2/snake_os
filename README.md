@@ -6,3 +6,9 @@ Requirements: nasm, gcc, gdb, qemu-full, make
 
 `make start`
 
+TODO:
+- stof
+- ftos
+- idt
+- sleep
+
