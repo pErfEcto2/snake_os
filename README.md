@@ -9,6 +9,5 @@ Requirements: nasm, gcc, gdb, qemu-full, make
 TODO:
 - stof
 - ftos
-- idt
 - sleep
 
