@@ -1,7 +1,17 @@
 #include "headers/util.h"
+#include "stdint.h"
+
+
+void memset(void *buf, char val, uint32 n) {
+	// sets every n bytes of the buf to val
+	char *tmp = (char*)buf;
+	for (; n > 0; n--) 
+		*tmp++ = val;
+}
 
 void print_all_info() {
-  register int eax asm("eax"), ebx asm("ebx"), ecx asm("ecx"), edx asm("edx"),
+  // prints contents of all registers
+	register int eax asm("eax"), ebx asm("ebx"), ecx asm("ecx"), edx asm("edx"),
       esp asm("esp"), ebp asm("ebp"), edi asm("edi"), esi asm("esi");
 
   printf("eax=%d ebx=%d ecx=%d edx=%d esp=%d ebp=%d edi=%d esi=%d\n", eax, ebx,
