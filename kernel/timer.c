@@ -6,8 +6,6 @@
 volatile uint32 ticks;
 
 void on_irq0(struct InterruptRegisters *regs) {
-  __asm__("cli");
-  printf("%d\n", ticks);
   ticks++;
 }
 
@@ -15,7 +13,7 @@ void init_timer() {
   ticks = 0;
   irq_install_handler(0, &on_irq0);
 
-  uint32 div = 1193182 / 10;
+  uint32 div = 1193182 / 10000; // = 119
 
   write_byte(REG_TIMER_CMD, 0x36);
   write_byte(REG_TIMER_DATA1, div & 0xff);

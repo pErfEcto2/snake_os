@@ -10,4 +10,5 @@ TODO:
 - stof
 - ftos
 - sleep
+- change every io function to work with interrupts
 

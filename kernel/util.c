@@ -1,17 +1,17 @@
 #include "headers/util.h"
+#include "headers/timer.h"
 #include "stdint.h"
 
-
 void memset(void *buf, char val, uint32 n) {
-	// sets every n bytes of the buf to val
-	char *tmp = (char*)buf;
-	for (; n > 0; n--) 
-		*tmp++ = val;
+  // sets every n bytes of the buf to val
+  char *tmp = (char *)buf;
+  for (; n > 0; n--)
+    *tmp++ = val;
 }
 
 void print_all_info() {
   // prints contents of all registers
-	register int eax asm("eax"), ebx asm("ebx"), ecx asm("ecx"), edx asm("edx"),
+  register int eax asm("eax"), ebx asm("ebx"), ecx asm("ecx"), edx asm("edx"),
       esp asm("esp"), ebp asm("ebp"), edi asm("edi"), esi asm("esi");
 
   printf("eax=%d ebx=%d ecx=%d edx=%d esp=%d ebp=%d edi=%d esi=%d\n", eax, ebx,
@@ -110,4 +110,12 @@ int stoi(char *str) {
   return sign * res;
 }
 
-void sleep(unsigned int millis) {}
+void sleep(unsigned int millis) {
+  // waits millis milliseconds
+  extern volatile uint32 ticks;
+  uint32 last_tick = millis * 3000 / 3579545 + ticks;
+  printf("%d\n", (millis * 3000) / 3579545);
+  while (ticks < last_tick) {
+    __asm__("hlt");
+  }
+}
