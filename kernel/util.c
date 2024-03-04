@@ -1,4 +1,5 @@
 #include "headers/util.h"
+#include "headers/screen.h"
 #include "headers/timer.h"
 #include "stdint.h"
 
@@ -110,11 +111,11 @@ int stoi(char *str) {
   return sign * res;
 }
 
+extern volatile uint64 ticks;
 void sleep(unsigned int millis) {
   // waits millis milliseconds
-  extern volatile uint32 ticks;
-  uint32 last_tick = millis * 3000 / 3579545 + ticks;
-  printf("%d\n", (millis * 3000) / 3579545);
+  // magic value to adjust inner speed(ticks per second) with the actual time
+  uint32 last_tick = millis * 22 + ticks;
   while (ticks < last_tick) {
     __asm__("hlt");
   }

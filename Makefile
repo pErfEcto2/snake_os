@@ -25,7 +25,7 @@ drivers.o:
 low_level.o: kernel/low_level.c
 	gcc $(GCC_FLAGS) -o build/low_level.o kernel/low_level.c
 
-kernel.bin: kernel_entry.o kernel.o low_level.o drivers.o util.o idt.o idts.o timer.o
+kernel.bin: kernel_entry.o kernel.o low_level.o drivers.o util.o idt.o idts.o timer.o 
 	ld -o build/kernel.bin -Ttext 0x1000 --oformat binary -m elf_i386 ${OBJ_FILES}
 
 kernel.o: kernel/kernel.c
@@ -43,7 +43,7 @@ os-image: kernel.bin boot.bin
 clean:
 	rm -rf build
 
-start: all
+start:
 	qemu-system-x86_64 -s -drive file=build/os-image,format=raw,index=1,media=disk &
 	# gdb -ex 'target remote localhost:1234'
 		

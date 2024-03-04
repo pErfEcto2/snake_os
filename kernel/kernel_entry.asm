@@ -5,4 +5,5 @@
 call initIdt
 call init_timer
 call main
+cli
 hlt

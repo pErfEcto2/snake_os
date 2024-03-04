@@ -1,3 +1,4 @@
+#pragma once
 #include "../stdint.h"
 
 #define PIC_CMD1 0x20

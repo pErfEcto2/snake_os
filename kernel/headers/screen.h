@@ -10,6 +10,7 @@
 #define REG_SCREEN_DATA 0x3d5
 
 
+void printf(char *str, ...);
 void clear_screen();
 void print(char *str);
 void print_at_begin(char *str);

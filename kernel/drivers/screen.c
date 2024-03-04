@@ -66,7 +66,7 @@ void getns(char *buf, unsigned int n) {
       if (inp != '\n')
         print(s);
     }
-  } while (inp != '\n' && i < n + 1);
+  } while (inp != '\n' && i < n);
 
   buf[i] = '\0';
 }

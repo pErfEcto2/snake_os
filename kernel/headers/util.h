@@ -17,5 +17,3 @@ int strlen(char *str);
 
 int gets(char *buf);
 void getns(char *buf, unsigned int n);
-
-void printf(char *str, ...);

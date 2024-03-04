@@ -134,7 +134,7 @@ void isr_handler(struct InterruptRegisters *regs) {
   if (regs->int_no < 32) {
     printf("Kernel panic: %s\n", exception_messages[regs->int_no]);
     print_all_info();
-    __asm__("hlt");
+    __asm__("cli; hlt");
   }
 }
 
@@ -151,7 +151,6 @@ void irq_handler(struct InterruptRegisters *regs) {
   void (*handler)(struct InterruptRegisters *regs);
 
   handler = irq_routines[regs->int_no - 32];
-
 
   if (handler) {
     handler(regs);
