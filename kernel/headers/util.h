@@ -5,7 +5,9 @@ void print_all_info();
 
 void memcopy(char *src, char *dest, int n);
 void memset(void *buf, char val, uint32 n);
+
 void sleep(unsigned int millis);
+void wait_until_key_pressed();
 
 int stoi(char *str);
 void itos(char *str, int val);

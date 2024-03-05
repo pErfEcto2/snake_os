@@ -3,6 +3,16 @@
 #include "headers/timer.h"
 #include "stdint.h"
 
+void wait_until_key_pressed() {
+  // waits until an user presses any key
+  uint32 started = get_cursor();
+  while (get_cursor() - started <= 0) {
+    __asm__("hlt");
+  }
+  set_cursor(started);
+  print_at("", started / 2 / COLUMNS, (started / 2) % COLUMNS);
+}
+
 void memset(void *buf, char val, uint32 n) {
   // sets first n bytes of the buf to val
   char *tmp = (char *)buf;

@@ -54,7 +54,9 @@ uint32 getns(char *buf, uint32 n) {
 	uint32 started = get_cursor(); // it's doubled
 
   do {
-		while (started - get_cursor() < 2) {}
+		while (started - get_cursor() < 2) {
+			__asm__("hlt");
+		}
 		started = get_cursor();
 		buf[i++] = last_pressed;
   } while (last_pressed != '\n' && i < n - 1);
@@ -70,7 +72,9 @@ uint32 gets(char *buf) {
 	uint32 started = get_cursor(); // it's doubled
 
   do {
-		while (started - get_cursor() < 2) {}
+		while (started - get_cursor() < 2) {
+			__asm__("hlt");
+		}
 		started = get_cursor();
 		buf[i++] = last_pressed;
   } while (last_pressed != '\n');
