@@ -5,9 +5,9 @@
 void printf(char *str, ...) {
   // prints formatted string
   // %d - integer
-  // %f - float
   // %s - null-terminated string
   // %% - percent sign
+	// %x - hex value
 
   void *beg = &str;
   int i;
@@ -27,13 +27,15 @@ void printf(char *str, ...) {
         print(tmp);
         beg += sizeof(int);
         break;
-      case 'f':
-        // print_f(*((float *)beg));
-        beg += sizeof(float);
-        break;
       case '%':
         print("%");
         break;
+			case 'x':
+				itoh(tmp, *((int *)beg));
+				print("0x");
+				print(tmp);
+        beg += sizeof(int);
+				break;
       }
       i++;
     } else {
@@ -43,58 +45,35 @@ void printf(char *str, ...) {
   }
 }
 
-void getns(char *buf, unsigned int n) {
+extern char *alphabet;
+extern char last_pressed;
+uint32 getns(char *buf, uint32 n) {
   // gets first n or less byte from an user and adds '\0' at n+1 place
   // returns a length of the buf
   int i = 0;
-  char inp, tmp;
-  char *alphabet = "001234567890-=00qwertyuiop[]\n\\asdfghjkl;'000zxcvbnm,./"
-                   "000 0000000000000000000000000000000000000000000000000000";
-  char *s = " ";
+	uint32 started = get_cursor(); // it's doubled
 
   do {
-    tmp = read_byte(REG_KEYBOARD_DATA);
-    if (tmp < 0) {
-      inp = '\0';
-      continue;
-    }
+		while (started - get_cursor() < 2) {}
+		started = get_cursor();
+		buf[i++] = last_pressed;
+  } while (last_pressed != '\n' && i < n - 1);
 
-    if (inp != alphabet[tmp]) {
-      inp = alphabet[tmp];
-      buf[i++] = inp;
-      s[0] = inp;
-      if (inp != '\n')
-        print(s);
-    }
-  } while (inp != '\n' && i < n);
-
-  buf[i] = '\0';
+  buf[--i] = '\0';
+	return i;
 }
 
-int gets(char *buf) {
+uint32 gets(char *buf) {
   // gets a string from an user and saves it in the buf
   // returns a length of the buf
   int i = 0;
-  char inp, tmp;
-  char *alphabet = "001234567890-=00qwertyuiop[]\n\\asdfghjkl;'000zxcvbnm,./"
-                   "000 0000000000000000000000000000000000000000000000000000";
-  char *s = " ";
+	uint32 started = get_cursor(); // it's doubled
 
   do {
-    tmp = read_byte(REG_KEYBOARD_DATA);
-    if (tmp < 0) {
-      inp = '\0';
-      continue;
-    }
-
-    if (inp != alphabet[tmp]) {
-      inp = alphabet[tmp];
-      buf[i++] = inp;
-      s[0] = inp;
-      if (inp != '\n')
-        print(s);
-    }
-  } while (inp != '\n');
+		while (started - get_cursor() < 2) {}
+		started = get_cursor();
+		buf[i++] = last_pressed;
+  } while (last_pressed != '\n');
 
   buf[--i] = '\0';
   return i;
@@ -121,7 +100,7 @@ void print(char *str) {
 }
 
 void print_at_begin(char *str) {
-  // prints at the begining of a screnn
+  // prints at the begining of a screen
   print_at(str, 0, 0);
 }
 
@@ -163,6 +142,11 @@ void print_char(char c, int row, int col, char attr) {
   if (c == '\n') {
     int rows = offset / (2 * COLUMNS);
     offset = get_screen_offset(COLUMNS - 1, rows);
+	} else if (c == '\b') {
+		offset -= 4;
+		set_cursor(offset);
+		video_mem[offset + 2] = ' ';
+		video_mem[offset + 3] = attr;
   } else {
     video_mem[offset] = c;
     video_mem[offset + 1] = attr;

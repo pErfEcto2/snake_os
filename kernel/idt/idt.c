@@ -9,14 +9,12 @@ struct idt_ptr_struct idt_ptr;
 
 extern void idt_flush(uint32);
 
-void initIdt() {
+void init_idt() {
   idt_ptr.limit = sizeof(struct idt_entry_struct) * 256 - 1;
   idt_ptr.base = (uint32)&idt_entries;
 
   memset(&idt_entries, 0, sizeof(struct idt_entry_struct) * 256);
 
-  // 0x20 commands and 0x21 data
-  // 0xA0 commands and 0xA1 data
   write_byte(PIC_CMD1, 0x11);
   write_byte(PIC_CMD2, 0x11);
 

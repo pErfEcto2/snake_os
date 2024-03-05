@@ -1,9 +1,11 @@
 [bits 32]
 [extern main]
-[extern initIdt]
+[extern init_idt]
 [extern init_timer]
-call initIdt
+[extern init_keyboard]
+call init_idt
 call init_timer
+call init_keyboard
 call main
 cli
 hlt

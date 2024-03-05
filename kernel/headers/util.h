@@ -9,11 +9,8 @@ void sleep(unsigned int millis);
 
 int stoi(char *str);
 void itos(char *str, int val);
-float stof(char *str);
-void ftos(char *str, float val);
+int htoi(char *hex);
+void itoh(char *str, int val);
 
 void srev(char *str, unsigned int n);
 int strlen(char *str);
-
-int gets(char *buf);
-void getns(char *buf, unsigned int n);

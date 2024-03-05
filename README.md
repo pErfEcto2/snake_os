@@ -9,7 +9,5 @@ Requirements: nasm, gcc, gdb, qemu-full, make
 `make start`
 
 TODO:
-- stof
-- ftos
-- change every io function to work with interrupts
 
+- change resolution?

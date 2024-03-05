@@ -27,7 +27,7 @@ struct InterruptRegisters {
   uint32 eip, csm, eflags, useresp, ss;
 };
 
-void initIdt();
+void init_idt();
 void setIdtGate(uint8 num, uint32 base, uint16 sel, uint8 flags);
 
 void isr_handler(struct InterruptRegisters *regs);

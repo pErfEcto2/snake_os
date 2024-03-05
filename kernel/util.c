@@ -4,7 +4,7 @@
 #include "stdint.h"
 
 void memset(void *buf, char val, uint32 n) {
-  // sets every n bytes of the buf to val
+  // sets first n bytes of the buf to val
   char *tmp = (char *)buf;
   for (; n > 0; n--)
     *tmp++ = val;
@@ -19,15 +19,40 @@ void print_all_info() {
          ecx, edx, esp, ebp, edi, esi);
 }
 
-float stof(char *str) {
-  // converts from str to float and returns it
-  // if invalid str is given the function returns -1
-
-  return -1.0;
+int htoi(char *hex) {
+  // converts hex to int and returns it
+  // the hex must be without any prefixes
+  // on error returns -1
+  uint32 val = 0;
+  while (*hex) {
+    uint8 byte = *hex++;
+    if (byte >= '0' && byte <= '9')
+      byte = byte - '0';
+    else if (byte >= 'a' && byte <= 'f')
+      byte = byte - 'a' + 10;
+    else if (byte >= 'A' && byte <= 'F')
+      byte = byte - 'A' + 10;
+    else
+      return -1;
+    val = (val << 4) | (byte & 0xF);
+  }
+  return val;
 }
 
-void ftos(char *str, float val) {
-  // converts float to str
+void itoh(char *str, int val) {
+  // converts int val to hex and stores it in the str
+  int i = 0, j, temp;
+  while (val != 0) {
+    temp = val % 16;
+    if (temp < 10)
+      temp = temp + '0';
+    else
+      temp = temp + 'a' - 10;
+    str[i++] = temp;
+    val = val / 16;
+  }
+  srev(str, i);
+  str[i + 1] = '\0';
 }
 
 int strlen(char *str) {

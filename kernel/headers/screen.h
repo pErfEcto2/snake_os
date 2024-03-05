@@ -1,3 +1,5 @@
+#include "../stdint.h"
+
 #define VIDEO_MEMORY 0xb8000
 
 #define ROWS 25
@@ -20,4 +22,6 @@ int get_screen_offset(int col, int row);
 int get_cursor();
 int handle_scroll(int offset);
 void set_cursor(int offset);
+uint32 getsn(char *buf, uint32 n);
+uint32 gets(char *buf);
 
