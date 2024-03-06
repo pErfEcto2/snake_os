@@ -7,7 +7,7 @@ void printf(char *str, ...) {
   // %d - integer
   // %s - null-terminated string
   // %% - percent sign
-	// %x - hex value
+  // %x - hex value
 
   void *beg = &str;
   int i;
@@ -30,12 +30,12 @@ void printf(char *str, ...) {
       case '%':
         print("%");
         break;
-			case 'x':
-				itoh(tmp, *((int *)beg));
-				print("0x");
-				print(tmp);
+      case 'x':
+        itoh(tmp, *((int *)beg));
+        print("0x");
+        print(tmp);
         beg += sizeof(int);
-				break;
+        break;
       }
       i++;
     } else {
@@ -49,34 +49,50 @@ extern char *alphabet;
 extern char last_pressed;
 uint32 getns(char *buf, uint32 n) {
   // gets first n or less byte from an user and adds '\0' at n+1 place
-  // returns a length of the buf
+  // returns a length of the buf(without '\0')
   int i = 0;
-	uint32 started = get_cursor(); // it's doubled
+  uint32 started = get_cursor(); // it's doubled
 
   do {
-		while (started - get_cursor() < 2) {
-			__asm__("hlt");
-		}
-		started = get_cursor();
-		buf[i++] = last_pressed;
-  } while (last_pressed != '\n' && i < n - 1);
+    while (started - get_cursor() < 2) {
+      __asm__("hlt");
+    }
+    if (last_pressed == '\b' && i > 0) {
+      started -= 2;
+      buf[--i] = '\0';
+      continue;
+    }
+    started = get_cursor();
+    buf[i++] = last_pressed;
+  } while (last_pressed != '\n' && i < n);
 
-  buf[--i] = '\0';
-	return i;
+  buf[i] = '\0';
+  return i;
+}
+
+char getchar() {
+  char *s = " ";
+  getns(s, 1);
+  return s[0];
 }
 
 uint32 gets(char *buf) {
   // gets a string from an user and saves it in the buf
-  // returns a length of the buf
+  // returns a length of the buf(without '\0')
   int i = 0;
-	uint32 started = get_cursor(); // it's doubled
+  uint32 started = get_cursor(); // it's doubled
 
   do {
-		while (started - get_cursor() < 2) {
-			__asm__("hlt");
-		}
-		started = get_cursor();
-		buf[i++] = last_pressed;
+    while (started - get_cursor() < 2) {
+      __asm__("hlt");
+    }
+    if (last_pressed == '\b' && i > 0) {
+      started -= 2;
+      buf[--i] = '\0';
+      continue;
+    }
+    started = get_cursor();
+    buf[i++] = last_pressed;
   } while (last_pressed != '\n');
 
   buf[--i] = '\0';
@@ -146,11 +162,11 @@ void print_char(char c, int row, int col, char attr) {
   if (c == '\n') {
     int rows = offset / (2 * COLUMNS);
     offset = get_screen_offset(COLUMNS - 1, rows);
-	} else if (c == '\b') {
-		offset -= 4;
-		set_cursor(offset);
-		video_mem[offset + 2] = ' ';
-		video_mem[offset + 3] = attr;
+  } else if (c == '\b') {
+    offset -= 4;
+    set_cursor(offset);
+    video_mem[offset + 2] = ' ';
+    video_mem[offset + 3] = attr;
   } else {
     video_mem[offset] = c;
     video_mem[offset + 1] = attr;

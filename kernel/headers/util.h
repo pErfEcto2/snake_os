@@ -1,3 +1,7 @@
+#pragma once
+
+#define RAND_MAX 32768
+
 #define REG_KEYBOARD_DATA 0x60
 #include "../stdint.h"
 
@@ -16,3 +20,6 @@ void itoh(char *str, int val);
 
 void srev(char *str, unsigned int n);
 int strlen(char *str);
+
+void srand(int n);
+int rand();

@@ -1,7 +1,22 @@
 #include "headers/util.h"
+#include "headers/low_level.h"
 #include "headers/screen.h"
-#include "headers/timer.h"
 #include "stdint.h"
+
+
+static int next = 1;
+void srand(int n) {
+	// seeds pseudorandom number generator
+	// if n is zero noise from io port is used
+	if (n == 0) next = read_word(64);
+	else next = n;
+}
+
+int rand() {
+	// generats pseudorandom numbers
+	next = next * 1103515245 + 12345;
+  return (unsigned int) (next / 65536) % RAND_MAX;
+}
 
 void wait_until_key_pressed() {
   // waits until an user presses any key
@@ -51,7 +66,7 @@ int htoi(char *hex) {
 
 void itoh(char *str, int val) {
   // converts int val to hex and stores it in the str
-  int i = 0, j, temp;
+  int i = 0, temp;
   while (val != 0) {
     temp = val % 16;
     if (temp < 10)
@@ -130,7 +145,7 @@ int stoi(char *str) {
   short sign = 1;
 
   for (int i = 0; *str; i++) {
-    if ((*str < '0' || *str > '9') && *str != '-' || (*str == '-' && i != 0)) {
+    if (((*str < '0' || *str > '9') && *str != '-') || (*str == '-' && i != 0)) {
       return -1;
     }
 

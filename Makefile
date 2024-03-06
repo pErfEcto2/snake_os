@@ -1,7 +1,7 @@
-_ := $(shell test -d build/drivers || mkdir -p build/drivers)
+_ := $(shell test -d build || mkdir -p build/drivers)
 # remember to write everything u add to the end of the OBJ_FILES variable!!!
-OBJ_FILES =  build/kernel_entry.o build/kernel.o build/low_level.o $(wildcard build/drivers/*.o) build/util.o build/idt.o build/idts.o build/timer.o
-GCC_FLAGS = -c -ffreestanding -m32 -fno-pie -fno-stack-protector
+OBJ_FILES = build/kernel_entry.o build/kernel.o build/low_level.o $(wildcard build/drivers/*.o) build/util.o build/idt.o build/idts.o build/timer.o
+GCC_FLAGS = -Wall -Wextra -c -ffreestanding -m32 -fno-pie -fno-stack-protector
 
 .PHONY: all start clean os-image
 
@@ -46,4 +46,4 @@ clean:
 start:
 	qemu-system-x86_64 -s -drive file=build/os-image,format=raw,index=1,media=disk &
 	# gdb -ex 'target remote localhost:1234'
-		
+	
