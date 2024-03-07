@@ -2,6 +2,9 @@
 #include "../headers/low_level.h"
 #include "../headers/util.h"
 
+extern char *alphabet;
+extern char last_pressed;
+
 void printf(char *str, ...) {
   // prints formatted string
   // %d - integer
@@ -45,12 +48,10 @@ void printf(char *str, ...) {
   }
 }
 
-extern char *alphabet;
-extern char last_pressed;
 uint32 getns(char *buf, uint32 n) {
   // gets first n or less byte from an user and adds '\0' at n+1 place
   // returns a length of the buf(without '\0')
-  int i = 0;
+  uint32 i = 0;
   uint32 started = get_cursor(); // it's doubled
 
   do {
@@ -102,9 +103,9 @@ uint32 gets(char *buf) {
 void clear_screen() {
   // clears screen by printing ' '(spaces) all over a screen
   // and sets a cursor at the begining
-  for (int i = 0; i < ROWS; i++) {
-    for (int j = 0; j < COLUMNS; j++)
-      print_at(" ", i, j);
+  set_cursor(get_screen_offset(0, ROWS - 1));
+	for (int i = 0; i < ROWS; i++) {
+		printf("\n");
   }
   set_cursor(0);
 }

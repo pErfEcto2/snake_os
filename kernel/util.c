@@ -4,7 +4,7 @@
 #include "stdint.h"
 
 
-static int next = 1;
+static uint32 next = 1;
 void srand(int n) {
 	// seeds pseudorandom number generator
 	// if n is zero noise from io port is used
@@ -12,10 +12,10 @@ void srand(int n) {
 	else next = n;
 }
 
-int rand() {
+uint32 rand() {
 	// generats pseudorandom numbers
 	next = next * 1103515245 + 12345;
-  return (unsigned int) (next / 65536) % RAND_MAX;
+  return (uint32)(next / 65536) % RAND_MAX;
 }
 
 void wait_until_key_pressed() {

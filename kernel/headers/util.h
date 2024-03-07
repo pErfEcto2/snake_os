@@ -22,4 +22,4 @@ void srev(char *str, unsigned int n);
 int strlen(char *str);
 
 void srand(int n);
-int rand();
+uint32 rand();

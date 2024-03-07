@@ -3,7 +3,7 @@ KERNEL_OFFSET equ 0x1000
 
 mov [BOOT_DRIVE], dl
 
-mov bp, 0x9000
+mov bp, 0xe000 ; CHANGED from 0x9000!!!!!!!!
 mov sp, bp
 
 call load_kernel
@@ -19,7 +19,7 @@ jmp $
 [bits 16]
 load_kernel:
 	mov bx, KERNEL_OFFSET
-	mov dh, 25
+	mov dh, 35
 	mov dl, [BOOT_DRIVE]
 	call disk_load
 	ret

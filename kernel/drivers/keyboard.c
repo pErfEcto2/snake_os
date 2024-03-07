@@ -1,8 +1,8 @@
 #include "../headers/keyboard.h"
 #include "../headers/low_level.h"
-#include "../headers/screen.h"
 #include "../headers/util.h"
 #include "../idt/idt.h"
+#include "../headers/screen.h"
 
 volatile char last_pressed;
 char *alphabet = "001234567890-=\b0qwertyuiop[]\n\\asdfghjkl;'000zxcvbnm,./"
@@ -62,7 +62,7 @@ void on_irq1(struct InterruptRegisters *regs) {
     break;
   }
 
-  printf("%s", s);
+	printf("%s", s);
 }
 
 void init_keyboard() {
